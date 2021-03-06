@@ -2,20 +2,17 @@ import React from 'react';
 import './App.css';
 import MessageContainer from './MessageContainer';
 
-class Messenger extends React.Component {
-    constructor() {
-        super();
-        this.state = {
+class App extends React.Component {
+    state = {
+        user: '',
+        messagesGroup: [],
+        indicator: {
             user: '',
-            messagesGroup: [],
-            indicator: {
-                user: '',
-                isTypinng: false
-            }
-        };
-    }
+            isTypinng: false
+        }
+    };
 
-    handleMessageSend = message => {
+    handleMessageSubmit = message => {
         this.setState({
             messagesGroup: this.groupMessages(
                 this.state.messagesGroup,
@@ -32,25 +29,25 @@ class Messenger extends React.Component {
         if (messagesGroup.length === 0) {
             const groupedMessage = {
                 group: message.user,
-                messages: [].concat([message])
+                messages: [message]
             };
             return messagesGroup.concat([groupedMessage]);
-        } else {
-            const lastMessage = messagesGroup[messagesGroup.length - 1];
-            if (lastMessage.group === message.user) {
-                lastMessage.messages.push(message);
-                return messagesGroup;
-            } else {
-                const groupedMessage = {
-                    group: message.user,
-                    messages: [].concat([message])
-                };
-                return messagesGroup.concat([groupedMessage]);
-            }
         }
+
+        const lastMessage = messagesGroup[messagesGroup.length - 1];
+        if (lastMessage.group === message.user) {
+            lastMessage.messages.push(message);
+            return messagesGroup;
+        }
+
+        const groupedMessage = {
+            group: message.user,
+            messages: [message]
+        };
+        return messagesGroup.concat([groupedMessage]);
     }
 
-    handleShowTypingIndicator = indicator => {
+    handleTypingChange = indicator => {
         this.setState({ indicator: indicator });
     };
 
@@ -61,19 +58,19 @@ class Messenger extends React.Component {
                     user={'User 1'}
                     messagesGroup={this.state.messagesGroup}
                     indicator={this.state.indicator}
-                    onMessageSend={this.handleMessageSend}
-                    onShowTypingIndicator={this.handleShowTypingIndicator}
+                    onMessageSubmit={this.handleMessageSubmit}
+                    onTypingChange={this.handleTypingChange}
                 />
                 <MessageContainer
                     user={'User 2'}
                     messagesGroup={this.state.messagesGroup}
                     indicator={this.state.indicator}
-                    onMessageSend={this.handleMessageSend}
-                    onShowTypingIndicator={this.handleShowTypingIndicator}
+                    onMessageSubmit={this.handleMessageSubmit}
+                    onTypingChange={this.handleTypingChange}
                 />
             </div>
         );
     }
 }
 
-export default Messenger;
+export default App;

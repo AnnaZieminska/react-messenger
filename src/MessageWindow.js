@@ -4,36 +4,32 @@ import MessageText from './MessageText';
 import { MessageContainerType } from './MessengerTypes';
 import TypingIndicator from './TypingIndicator';
 
-class MessageWindow extends React.Component {
-    render() {
-        let groups = this.props.messagesGroup.map((group, index) => {
-            const isMyMessage = group.group === this.props.user;
-            return (
-                <div className='fxcol' key={index + 1}>
-                    <span className='user-name'>
-                        {!isMyMessage ? group.group : ''}{' '}
-                    </span>
+function MessageWindow(props) {
+    const groups = props.messagesGroup.map((group, index) => {
+        const isMyMessage = group.group === props.user;
+        return (
+            <div className='fxcol' key={index + 1}>
+                {!isMyMessage && (
+                    <span className='user-name'>{group.group}</span>
+                )}
 
-                    <MessageGroup
-                        messages={group.messages}
-                        isMyMessage={isMyMessage}
-                    ></MessageGroup>
-                </div>
-            );
-        });
+                <MessageGroup
+                    messages={group.messages}
+                    isMyMessage={isMyMessage}
+                />
+            </div>
+        );
+    });
 
-        if (
-            this.props.indicator.isTyping &&
-            this.props.indicator.user !== this.props.user
-        ) {
-            const indicator = (
-                <MessageText key={0} slot={<TypingIndicator />}></MessageText>
-            );
-            groups = groups.concat([indicator]);
-        }
-
-        return <div>{groups}</div>;
-    }
+    return (
+        <div>
+            {groups}
+            {props.indicator.isTyping &&
+                props.indicator.user !== props.user && (
+                    <MessageText key={0} slot={<TypingIndicator />} />
+                )}
+        </div>
+    );
 }
 
 MessageWindow.propTypes = MessageContainerType.isRequired;

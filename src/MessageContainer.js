@@ -1,17 +1,17 @@
 import React from 'react';
 import './App.css';
-import MessageSubmit from './MessageSubmit';
+import MessageSubmitForm from './MessageSubmitForm';
 import MessageWindow from './MessageWindow';
 import { MessageContainerType } from './MessengerTypes';
 
 class MessageContainer extends React.Component {
-    handleMessageSend = message => {
+    handleMessageSubmit = message => {
         const createdMessage = {
             message: message,
             user: this.props.user,
             time: Date.now()
         };
-        this.props.onMessageSend(createdMessage);
+        this.props.onMessageSubmit(createdMessage);
     };
 
     handleShowTypingIndicator = typing => {
@@ -19,7 +19,7 @@ class MessageContainer extends React.Component {
             user: this.props.user,
             isTyping: typing
         };
-        this.props.onShowTypingIndicator(userIsTyping);
+        this.props.onTypingChange(userIsTyping);
     };
 
     render() {
@@ -32,9 +32,9 @@ class MessageContainer extends React.Component {
                         indicator={this.props.indicator}
                     />
                 </div>
-                <MessageSubmit
-                    onMessageSend={this.handleMessageSend}
-                    onShowTypingIndicator={this.handleShowTypingIndicator}
+                <MessageSubmitForm
+                    onMessageSubmit={this.handleMessageSubmit}
+                    onTypingChange={this.handleShowTypingIndicator}
                 />
             </div>
         );
