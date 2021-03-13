@@ -1,13 +1,175 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+    --light-border: 1px solid #eee;
+    --light-gray: #f5f5f5;
+    --gray: #e5e5e5;
+    --white: #fff;
+    --dark: #333;
+    --main-color: darkmagenta;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html,
+body {
+    height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+        'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+        'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-gray);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gray);
+}
+
+#root {
+    height: 100%;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.fxflex,
+.fxrow,
+.fxcol {
+    display: flex;
+}
+
+.fxrow {
+    flex-direction: row;
+}
+
+.fxcol {
+    flex-direction: column;
+}
+
+.fxgrow {
+    flex-grow: 1;
+}
+
+.fxstart {
+    justify-content: flex-start;
+}
+
+.fxend {
+    justify-content: flex-end;
+}
+
+.overflow {
+    overflow: auto;
+}
+
+.message-container {
+    margin: 10px;
+    padding-top: 8px;
+    border: var(--light-border);
+    background: var(--light-gray);
+}
+
+.message-container:last-of-type {
+    margin-left: 0;
+}
+
+.message-submit {
+    padding: 10px;
+}
+
+.message-submit__input {
+    border: 0;
+    padding: 10px;
+    height: 40px;
+    border: var(--light-border);
+}
+
+.message-submit__input:focus {
+    outline: 0;
+}
+
+.message-submit__input--text {
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.message-submit__input--submit {
+    background: var(--main-color);
+    color: var(--white);
+    cursor: pointer;
+}
+
+.message-box {
+    height: 26px;
+    padding: 2px 8px 3px;
+    margin: 2px 10px;
+    border-radius: 2px;
+    width: fit-content;
+}
+
+.message-box--gray {
+    background: var(--gray);
+    color: var(--dark);
+}
+
+.message-box--color {
+    background: var(--main-color);
+    color: var(--white);
+}
+
+.user-name {
+    margin: 3px 10px;
+    font-size: 12px;
+    color: var(--main-color);
+    font-weight: bold;
+}
+
+.typing-indicator__circle {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--dark);
+    margin: 0 4px;
+    animation: bounce 1s infinite;
+}
+
+.typing-indicator__circle--circle-1 {
+    animation-delay: 0.1s;
+}
+
+.typing-indicator__circle--circle-2 {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator__circle--circle-3 {
+    animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+    0% {
+        margin-top: 4px;
+    }
+    50% {
+        margin-top: 10px;
+    }
+    100% {
+        margin-top: 4px;
+    }
 }
