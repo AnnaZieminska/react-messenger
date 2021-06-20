@@ -1,31 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import MessageContainer from './MessageContainer';
 
-class App extends React.Component {
-    state = {
+function App() {
+    const [messagesGroup, setMessagesGroup] = useState([]);
+    const [indicator, setIndicator] = useState({
         user: '',
-        messagesGroup: [],
-        indicator: {
-            user: '',
-            isTypinng: false
-        }
-    };
+        isTypinng: false
+    });
 
-    handleMessageSubmit = message => {
-        this.setState({
-            messagesGroup: this.groupMessages(
-                this.state.messagesGroup,
-                message
-            ),
-            indicator: {
-                user: '',
-                isTypinng: false
-            }
-        });
-    };
-
-    groupMessages(messagesGroup, message) {
+    const groupMessages = (messagesGroup, message) => {
         if (messagesGroup.length === 0) {
             const groupedMessage = {
                 group: message.user,
@@ -44,33 +28,40 @@ class App extends React.Component {
             group: message.user,
             messages: [message]
         };
-        return messagesGroup.concat([groupedMessage]);
-    }
 
-    handleTypingChange = indicator => {
-        this.setState({ indicator: indicator });
+        return messagesGroup.concat([groupedMessage]);
     };
 
-    render() {
-        return (
-            <div className='fxrow full-height'>
-                <MessageContainer
-                    user={'User 1'}
-                    messagesGroup={this.state.messagesGroup}
-                    indicator={this.state.indicator}
-                    onMessageSubmit={this.handleMessageSubmit}
-                    onTypingChange={this.handleTypingChange}
-                />
-                <MessageContainer
-                    user={'User 2'}
-                    messagesGroup={this.state.messagesGroup}
-                    indicator={this.state.indicator}
-                    onMessageSubmit={this.handleMessageSubmit}
-                    onTypingChange={this.handleTypingChange}
-                />
-            </div>
-        );
-    }
+    const handleMessageSubmit = message => {
+        setMessagesGroup(groupMessages(messagesGroup, message));
+        setIndicator({
+            user: '',
+            isTypinng: false
+        });
+    };
+
+    const handleTypingChange = indicator => {
+        setIndicator(indicator);
+    };
+
+    return (
+        <div className='fxrow full-height'>
+            <MessageContainer
+                user={'User 1'}
+                messagesGroup={messagesGroup}
+                indicator={indicator}
+                onMessageSubmit={handleMessageSubmit}
+                onTypingChange={handleTypingChange}
+            />
+            <MessageContainer
+                user={'User 2'}
+                messagesGroup={messagesGroup}
+                indicator={indicator}
+                onMessageSubmit={handleMessageSubmit}
+                onTypingChange={handleTypingChange}
+            />
+        </div>
+    );
 }
 
 export default App;

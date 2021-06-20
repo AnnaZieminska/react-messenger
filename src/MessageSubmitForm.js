@@ -1,60 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class MessageSubmitForm extends React.Component {
-    constructor(props) {
-        super(props);
+function MessageSubmitForm(props) {
+    const [value, setValue] = useState(['']);
+    const [typingTimer, setTypingTimer] = useState(null);
 
-        this.state = { value: '', typingTimer: null };
-    }
+    const setTypingStatus = typing => {
+        props.onTypingChange(typing);
+    };
 
-    setTypingStatus(typing) {
-        this.props.onTypingChange(typing);
-    }
+    const handleMessageChange = event => {
+        setTypingStatus(true);
+        setValue(event.target.value);
 
-    handleMessageChange = event => {
-        this.setTypingStatus(true);
-        this.setState({ value: event.target.value });
-
-        clearTimeout(this.state.typingTimer);
+        clearTimeout(typingTimer);
         if (event.target.value) {
-            this.setState({
-                typingTimer: setTimeout(() => this.setTypingStatus(false), 500)
-            });
+            setTypingTimer(setTimeout(() => setTypingStatus(false), 500));
         }
     };
 
-    handleMessageSubmit = event => {
+    const handleMessageSubmit = event => {
         event.preventDefault();
 
-        if (this.state.value) {
-            this.props.onMessageSubmit(this.state.value);
-            this.setState({
-                value: ''
-            });
+        if (value) {
+            props.onMessageSubmit(value);
+            setValue('');
         }
     };
 
-    render() {
-        return (
-            <form
-                className='fxrow message-submit'
-                onSubmit={this.handleMessageSubmit}
-            >
-                <input
-                    type='text'
-                    placeholder='Type a new message'
-                    value={this.state.value}
-                    onChange={this.handleMessageChange}
-                    className='fxgrow message-submit__input message-submit__input--text'
-                />
-                <input
-                    type='submit'
-                    value='Submit'
-                    className='message-submit__input message-submit__input--submit'
-                />
-            </form>
-        );
-    }
+    return (
+        <form className='fxrow message-submit' onSubmit={handleMessageSubmit}>
+            <input
+                type='text'
+                placeholder='Type a new message'
+                value={value}
+                onChange={handleMessageChange}
+                className='fxgrow message-submit__input message-submit__input--text'
+            />
+            <input
+                type='submit'
+                value='Submit'
+                className='message-submit__input message-submit__input--submit'
+            />
+        </form>
+    );
 }
 
 export default MessageSubmitForm;
